@@ -1,0 +1,5 @@
+batch:
+    build: .
+    dockerfile: ./dockerfile
+    command: python main.py
+    container_name: python_crontab_example
