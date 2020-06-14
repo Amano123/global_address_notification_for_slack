@@ -15,10 +15,22 @@ token      = kirin.token
 channel_id = kirin.channel_id
 username   = kirin .username
 
+# グローバルアドレスの変数
+global_address = b""
+global_ts = ""
 
 @JobController.run("* * * * *")
 def global_add():
-    text = subprocess.check_output(["curl ipecho.net/plain"], shell = True)
+    global global_address
+    global global_ts
+
+    # ip addressを取得
+    address = subprocess.check_output(["curl ipecho.net/plain"], shell = True)
+
+    if global_address == address:
+        return
+    else :
+        global_address = address
 
     # url (post & del)
     post_message_url = 'https://slack.com/api/chat.postMessage'
@@ -27,7 +39,7 @@ def global_add():
     #post 
     post_response = requests.post(post_message_url, data={'token': token,
                                                           'channel':channel_id,
-                                                          'text':text,
+                                                          'text':address,
                                                           'username':username})
 
     # log 
@@ -38,12 +50,12 @@ def global_add():
     # time sleep
     # もっといい処理があると思う
     time.sleep(6)
-    ts = post_response.json()['message']['ts']
+    global_ts = post_response.json()['message']['ts']
     
     # del
     del_response = requests.post(del_message_url, data={'token': token,
                                                         'channel':channel_id,
-                                                        'ts':ts})
+                                                        'ts':global_ts})
     # log
     logging.info(del_response)
     logging.info("del message")
