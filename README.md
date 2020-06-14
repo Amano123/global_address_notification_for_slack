@@ -1,4 +1,4 @@
-# globalアドレスが変わるPCに入れると便利なやつ
+# global_address_notification_for_slack
 
 ## 使い方
 variableの中に変数ファイルを入れる
