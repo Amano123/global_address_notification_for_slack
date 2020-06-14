@@ -44,7 +44,7 @@ def global_add():
 
     # log 
     logging.info(post_response.json())
-    logging.info(text)
+    logging.info(address)
     logging.info("post message")
     
     # time sleep
